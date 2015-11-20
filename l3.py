@@ -26,7 +26,7 @@ class NEXRADLevel3File:
         #print self.text_header
         bpos = 30
 	if struct.unpack("bb", buf[bpos:bpos+2]) == (0x78,0x9A):
-		print "WE GOT OURSELVES A ZLIB COMPRESSED PRODUCT. WOO!"
+		print "*** ZLIB DETECTED ***"
 		dcb = zlib.decompress(buf[bpos:])
 		buf = dcb
 		bpos = 54 # the header in the zlib version is longer, but still regular	
