@@ -8,6 +8,8 @@ gravy.
 
 import struct
 
+import zlib
+
 class NEXRADLevel3File:
     """
     Simple class for getting the metadata about a Level III product
@@ -23,6 +25,11 @@ class NEXRADLevel3File:
         self.text_header = buf[:30]
         #print self.text_header
         bpos = 30
+	if struct.unpack("bb", buf[bpos:bpos+2]) == (0x78,0x9A):
+		print "WE GOT OURSELVES A ZLIB COMPRESSED PRODUCT"
+		dcb = zlib.decompress(buf[bpos:])
+		buf = dcb
+		bpos = 54 # the header in the zlib version is longer, but still regular	
         self.msg_header = _unpack_from_buf(buf, bpos, MESSAGE_HEADER)
         bpos += 18
         self.product_desc = _unpack_from_buf(buf, bpos, PRODUCT_DESCRIPTION)
