@@ -4,6 +4,9 @@ http://arm-doe.github.io/pyart-docs-travis/index.html but that
 did not work for me, which is why I had to create this.  What I need
 is the ability to get the VCP from a product.  Everything else is
 gravy.
+
+Seriously.  Can't thank the creator of pyart enough.  He did all
+the hard work.
 """
 
 import struct
@@ -22,14 +25,14 @@ class NEXRADLevel3File:
         fp = open(filename)
         self.buf = fp.read()
         buf = self.buf
-        self.text_header = buf[:30]
-        #print self.text_header
-        bpos = 30
-	if struct.unpack("bb", buf[bpos:bpos+2]) == (0x78,0x9A):
-		print "*** ZLIB DETECTED ***"
+        self.text_header = buf[:41]
+        bpos = 41
+	twob = struct.unpack("BB", buf[bpos:bpos+2])
+	# zlib signature appears to be 0x78DA
+	if twob == (0x78,0xDA):
 		dcb = zlib.decompress(buf[bpos:])
 		buf = dcb
-		bpos = 54 # the header in the zlib version is longer, but still regular	
+		bpos = 54 # the header in the zlib version is longer, but still a regular length
         self.msg_header = _unpack_from_buf(buf, bpos, MESSAGE_HEADER)
         bpos += 18
         self.product_desc = _unpack_from_buf(buf, bpos, PRODUCT_DESCRIPTION)

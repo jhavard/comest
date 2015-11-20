@@ -2,4 +2,4 @@
 
 import os,sys,l3
 
-print l3.L3F(sys.argv[1]).vcp
+print sys.argv[1],l3.L3F(sys.argv[1]).vcp
