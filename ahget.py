@@ -45,7 +45,7 @@ for site  in sites:
         for ff in flist[10:]:
             upath = '/level3/%s/data/nexrad/%s/%s/%s' % (akey,site,prod,ff)
             if not seen.has_key(upath):
-                print "%s/%s/%s%s" % (site,prod,ff)
+                print "%s/%s/%s" % (site,prod,ff)
                 conn.request('GET', upath)
                 fp = open(ff,"w")
                 fp.write(conn.getresponse().read())
