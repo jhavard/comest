@@ -33,20 +33,27 @@ conn = httplib.HTTPConnection(host)
 
 for site  in sites:
     for prod in prods:
-        conn.request('GET', '/level3/%s/data/nexrad/%s/%s/dir.list' % (akey, site, prod))
-        resp = conn.getresponse()
-        cont = resp.read()
-        flist = cont.splitlines()
+        try:
+            conn.request('GET', '/level3/%s/data/nexrad/%s/%s/dir.list' % (akey, site, prod))
+            resp = conn.getresponse()
+            cont = resp.read()
+            flist = cont.splitlines()
+        except:
+            print "ERROR Some random exception on",site,prod
+            continue
         
-        for ff in flist:
+        for ff in flist[5:]:
             upath = '/level3/%s/data/nexrad/%s/%s/%s' % (akey,site,prod,ff)
             if not seen.has_key(upath):
-		print "FF %s UPATH %s" % (ff,upath)
+                print "%s/%s/%s%s" % (site,prod,ff)
                 conn.request('GET', upath)
                 fp = open(ff,"w")
                 fp.write(conn.getresponse().read())
                 fp.close()
-                shutil.move(ff,'/awips2/edex/data/manual')
+                try:
+                    shutil.move(ff,'/awips2/edex/data/manual')
+                except:
+                    "\tERROR while moving",ff
                 seen[upath] = str(time.time())
             else:
                 print "Skipping previously seen",upath
