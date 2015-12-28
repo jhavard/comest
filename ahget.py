@@ -4,13 +4,16 @@ import os,sys,time,dbm,httplib,shutil
 
 host = 'level3.allisonhouse.com'
 
-sites = ['DGX']
+sites = ['DGX', 'GWX']
 
 #prods = ['GSM', 'N0Q']
-prods = ['DAA',  'DTA',  'DSD',  'HHC',  'N0M',  'N0U',  'N1C',  'N1P',  'N1X',  'N2M',  'N2X',  'N3M',  'N3U',  'NAM',  'NBC',  'NBQ',  'NET',  'NVW',  'SPD',  'TR2',
-         'DHR',  'DU3',  'DVL',  'N0C',  'N0Q',  'N0V',  'N1H',  'N1Q',  'N2C',  'N2Q',  'N3C',  'N3X',  'NAC',  'NAQ',  'NBH',  'NBU',  'NMD',  'NTP',  'TZL',  'TV0',
-         'DPR',  'DU6',  'EET',  'N0H',  'N0R',  'N0X',  'N1K',  'N1S',  'N2H',  'N2S',  'N3H',  'N3Q',  'NAH',  'NAU',  'NBK',  'NBX',  'NST',  'OHA',  'TR0',  'TV1',
-         'DSP',  'DOD',  'GSM',  'N0K',  'N0S',  'N0Z',  'N1M',  'N1U',  'N2K',  'N2U',  'N3K',  'N3S',  'NAK',  'NAX',  'NBM',  'NCR',  'NVL',  'PTA',  'TR1',  'TV2' ]
+prods = ['DAA',  'DTA',  'DSD',  'HHC',  'N1C',  'N1P',  'N1X',  'N2M',  'N2X',  'N3M',  'N3U',  'NAM',  'NBC',  'NBQ',  'NET',  'NVW',  'SPD',  'TR2',
+         'DHR',  'DU3',  'DVL',  'N1H',  'N1Q',  'N2C',  'N2Q',  'N3C',  'N3X',  'NAC',  'NAQ',  'NBH',  'NBU',  'NMD',  'NTP',  'TZL',  'TV0',
+         'DPR',  'DU6',  'EET',  'N1K',  'N1S',  'N2H',  'N2S',  'N3H',  'N3Q',  'NAH',  'NAU',  'NBK',  'NBX',  'NST',  'OHA',  'TR0',  'TV1',
+         'DSP',  'DOD',  'GSM',  'N1M',  'N1U',  'N2K',  'N2U',  'N3K',  'N3S',  'NAK',  'NAX',  'NBM',  'NCR',  'NVL',  'PTA',  'TR1',  'TV2' ]
+
+# These come from nexdown, so no need to fetch them here.  Add to prods if needed
+nexdown_prods = ['N0C', 'N0H', 'N0K', 'N0M', 'N0Q', 'N0R', 'N0S', 'N0U', 'N0V', 'N0X', 'N0Z']
 
 seen = dbm.open('ahseen.db','c')
 
