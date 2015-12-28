@@ -42,7 +42,7 @@ for site  in sites:
             print "ERROR Some random exception on",site,prod
             continue
         
-        for ff in flist[5:]:
+        for ff in flist[10:]:
             upath = '/level3/%s/data/nexrad/%s/%s/%s' % (akey,site,prod,ff)
             if not seen.has_key(upath):
                 print "%s/%s/%s%s" % (site,prod,ff)
