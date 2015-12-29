@@ -4,16 +4,21 @@ import os,sys,time,dbm,httplib,shutil
 
 host = 'level3.allisonhouse.com'
 
+# List the radar sites you care about here
 sites = ['DGX', 'GWX']
 
-#prods = ['GSM', 'N0Q']
+# The big fat product list
 prods = ['DAA',  'DTA',  'DSD',  'HHC',  'N1C',  'N1P',  'N1X',  'N2M',  'N2X',  'N3M',  'N3U',  'NAM',  'NBC',  'NBQ',  'NET',  'NVW',  'SPD',  'TR2',
          'DHR',  'DU3',  'DVL',  'N1H',  'N1Q',  'N2C',  'N2Q',  'N3C',  'N3X',  'NAC',  'NAQ',  'NBH',  'NBU',  'NMD',  'NTP',  'TZL',  'TV0',
          'DPR',  'DU6',  'EET',  'N1K',  'N1S',  'N2H',  'N2S',  'N3H',  'N3Q',  'NAH',  'NAU',  'NBK',  'NBX',  'NST',  'OHA',  'TR0',  'TV1',
          'DSP',  'DOD',  'GSM',  'N1M',  'N1U',  'N2K',  'N2U',  'N3K',  'N3S',  'NAK',  'NAX',  'NBM',  'NCR',  'NVL',  'PTA',  'TR1',  'TV2' ]
 
-# These come from nexdown, so no need to fetch them here.  Add to prods if needed
-nexdown_prods = ['N0C', 'N0H', 'N0K', 'N0M', 'N0Q', 'N0R', 'N0S', 'N0U', 'N0V', 'N0X', 'N0Z']
+#TODO: Add VCP check, and break Big Fat Product List into core products and precip mode products, 
+#TODO: then build prods array based on that.
+
+# These come from nexdown, which is part of python-emwin, so no need to fetch them here.  Add to prods if you
+# do not use that.
+#prods += ['N0C', 'N0H', 'N0K', 'N0M', 'N0Q', 'N0R', 'N0S', 'N0U', 'N0V', 'N0X', 'N0Z']
 
 seen = dbm.open('ahseen.db','c')
 
@@ -31,8 +36,9 @@ except:
 
 conn = httplib.HTTPConnection(host)
 
-for site  in sites:
-    for prod in prods:
+
+for prod in prods:
+    for site  in sites:
         try:
             conn.request('GET', '/level3/%s/data/nexrad/%s/%s/dir.list' % (akey, site, prod))
             resp = conn.getresponse()
